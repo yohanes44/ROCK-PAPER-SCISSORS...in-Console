@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+    <style>
+html{
+ height: 100%;
+}
+body{
+    background-color: orange;
+    height: 100%;
+    font-family: 'Aclonica';font-size: 22px;
+}
+
+
+h1{
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+    font-size: 25px;
+}
+
+.score{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    height: 80px;
+    font-size: 30px;
+    color:blueviolet;
+}
+
+.Images{
+    display: flex;
+    justify-content: space-between;
+}
+
+.allImages{
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 55px;
+}
+
+img{
+    width: 150px;
+    height: 150px;
+}
+
+.btnPlay{
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+    padding: 20px;
+}
+button{
+    padding: 10px;
+    box-shadow: 4px 7px 3px green;
+    font-size: 20px;
+}
+
+.selection{
+    padding: 70px;
+    padding-top: 10px;
+    justify-content: center;
+    display: flex;
+    height: 90px;
+    gap: 20px;
+}
+.message{
+    font-size: 30px;
+    color: green;
+    text-align: center;
+    
+}
+
+.playAgain{
+    background: turquoise;
+    font-size: 20px;
+}
+.Choosen{
+    margin-top: 30px;
+    display: block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 90px;
+    font-size: 25px;
+}
+
+.rule{
+    text-align: center;
+    font-size: 30px;
+}
+
+.imgChoose{
+    border-radius: 50%;
+}
+
+    </style>
+</head>
+<body>
+<h1>Rock Paper Scissor Game</h1>
+<div class="container">
+    
+    <div class="rule"></div>
+
+
+    <h2 class="score">
+    </h2>
+
+   
+
+    <div class="selection">     
+    </div>
+    <div class="message"></div>
+
+    <div class="btnPlay"><button class="play"> <strong>PLAY</strong>  </button></div>
+</div>
+
+
+<script>
+let storeScore = [] 
+let userCounter = 0;
+let compCounter = 0;
+let tieCounter = 0;
+
+let allImages = document.querySelector(".allImages");
+
+let divPlayerScore = document.createElement("div"); //container for div_divPlayerScore
+let div_divPlayerScore = document.createElement("div"); //node to display counter of playerScore
+
+let divTieScore = document.createElement("div");//container for div_divTieScore
+let div_divTieScore = document.createElement("div");//node to display counter of Tie Score 
+
+let divCompScore = document.createElement("div");//container for div_CompScore
+let div_divCompScore = document.createElement("div");//node to display counter of computerScore
+
+let playerSelection = document.createElement("div");
+let computerSelection = document.createElement("div");
+
+let divSelectionText = document.createElement("div"); //container for div_playerSelectionText and  div_computerSelectionText
+let div_playerSelectionText = document.createElement("div");//display the text "Player" above the player selected corresponding picture 
+let div_computerSelectionText = document.createElement("div");//display the text "Computer" above the computer selected corresponding picture
+
+let playAgain = document.createElement("button");
+
+let container = document.querySelector(".container");
+let btnStartDiv = document.querySelector(".btnPlay");
+let btnStart = document.querySelector(".play");
+let scoreBoard = document.querySelector(".score");
+let message= document.querySelector(".message");
+let selection = document.querySelector(".selection");
+
+let divImages = document.createElement("div");
+let msg = document.createElement("div");//
+
+let rule = document.querySelector(".rule");
+
+btnStart.addEventListener("click", displayDOM, {once: true});// Event Listener to to remove the button when clicked 
+let option = ["rock", "paper", "scissor"]
+
+function singleGame(Umove, Cmove){ // return result based on player and computer moves. for a single Game.
+    if( (Umove === "rock" && Cmove === "scissor") || (Umove === "paper" && Cmove === "rock") || (Umove === "scissor" && Cmove === "paper") ){
+        ++userCounter;
+        storeScore.push("player");
+        console.log(storeScore);
+        return "you won";
+        
+    }
+    else if ((Umove === "rock" && Cmove === "paper") || (Umove === "paper" && Cmove === "scissor") || (Umove === "scissor" && Cmove === "rock")){
+        ++compCounter;
+        storeScore.push("computer");
+        console.log(storeScore);
+        return 'computer won';
+    }
+    else{
+        ++tieCounter;
+        storeScore.push("tie");
+        console.log(storeScore);
+        return 'tie';
+    }
+}
+
+function displayScore(playerScore, computerScore){//display the counters for player, Computer and Ties.
+    div_divPlayerScore.innerHTML = playerScore;
+    div_divCompScore.innerHTML = computerScore;
+    div_divTieScore.innerHTML = tieCounter;
+}
+
+function compGetChoose(){ // get random computer move
+     let CompRandom = Math.floor(Math.random() * option.length);
+     let comp = option[CompRandom];
+     return comp; 
+}
+
+function displayMoves(userMove, compMove){ // display the winner on Dom
+    if(userMove === "rock"){
+        playerSelection.innerHTML = `<img src="imgRock.jpg"/>`;
+    }
+
+    if(userMove === "paper"){
+        playerSelection.innerHTML = `<img src="imgPaper.jpg"/>`;
+    }
+
+    if(userMove === "scissor"){
+            playerSelection.innerHTML = `<img src="imgScissor.jpg"/>`;
+    }
+    
+    if(compMove === "rock"){
+        computerSelection.innerHTML = `<img src="imgRock.jpg"/>`;
+    }
+ 
+    if(compMove === "paper"){
+        computerSelection.innerHTML = `<img src="imgPaper.jpg"/>`;
+    }
+ 
+    if(compMove === "scissor"){
+        computerSelection.innerHTML = `<img src="imgScissor.jpg"/>`;
+    }
+
+    divPlayerScore.innerHTML = "PlayerScore";
+    scoreBoard.appendChild(divPlayerScore);
+    divPlayerScore.appendChild(div_divPlayerScore);
+
+    divTieScore.innerHTML = "Ties";
+    scoreBoard.appendChild(divTieScore);
+    divTieScore.appendChild(div_divTieScore);
+    
+    divCompScore.innerHTML ="Computer Score";
+    scoreBoard.appendChild(divCompScore);
+    divCompScore.appendChild(div_divCompScore);
+
+    div_playerSelectionText.innerHTML = "Player";
+    div_computerSelectionText.innerHTML="Computer";
+
+    let getSingleGameWinner = singleGame(userMove, compMove);
+    message.innerHTML = getSingleGameWinner;
+}
+
+function displayDOM(){// display All Images and all Doms when start button clicked
+
+
+    msg.innerHTML="Select Rock, Paper or Scissor. The computer Randomly selects too";
+    message.appendChild(msg);
+
+
+    divSelectionText.classList.add("Choosen");
+   
+    divSelectionText.appendChild(div_playerSelectionText);
+    divSelectionText.appendChild(div_computerSelectionText);
+
+    container.insertBefore(divSelectionText, container.children[2])
+
+    playerSelection.innerHTML = "" //node to display player move
+    computerSelection.innerHTML= "" //node to display computer move
+    selection.appendChild(playerSelection);
+    selection.appendChild(computerSelection);
+
+    container.removeChild(btnStartDiv); // remove the button that display the DOM
+    
+    let imgRock = document.createElement("img");
+    let imgPaper = document.createElement("img");
+    let imgScissor= document.createElement("img");
+    divImages.classList.add("allImages");
+     
+    imgRock.setAttribute("src", "imgRock.jpg" );
+    imgPaper.setAttribute("src", "imgPaper.jpg" );
+    imgScissor.setAttribute("src", "imgScissor.jpg" );
+
+    imgRock.setAttribute("data-image", "rock");
+    imgPaper.setAttribute("data-image", "paper");
+    imgScissor.setAttribute("data-image", "scissor");
+
+    imgRock.setAttribute("alt", "Rock");
+    imgRock.classList.add("imgChoose")
+    imgPaper.setAttribute("alt", "Paper");
+    imgPaper.classList.add("imgChoose")
+    imgScissor.setAttribute("alt", "Scissor");
+    imgScissor.classList.add("imgChoose")
+
+    container.appendChild(divImages);
+    divImages.appendChild(imgRock);
+    divImages.appendChild(imgPaper);
+    divImages.appendChild(imgScissor);
+      
+    rule.innerHTML = "Rock wins against scissors. Scissors win against paper. Paper wins against rock";
+  
+    startGame();
+}
+
+function startGame(){ 
+    let img = document.querySelectorAll("img");
+    
+    img.forEach((elem) => elem.addEventListener("click", () => {//Calls all functions
+    console.log(elem.dataset.image);
+    let compMove = compGetChoose();
+    displayMoves(elem.dataset.image, compMove);
+    displayScore(userCounter, compCounter);
+    if(userCounter > 4 || compCounter > 4){
+        userCounter = 0;
+        compCounter = 0;
+        tieCounter = 0;
+
+        let divPlayAgain = document.createElement("div");
+        let playAgain = document.createElement("button");
+        playAgain.innerHTML = "Play Again";
+       
+       
+       
+       
+       
+       
+       
+       
+       
+        playAgain.style.cssText = "font-family: 'Aclonica'; font-size: 22px; text-align: center; padding: 20px;";
+        divPlayAgain.classList.add("btnPlay");
+        playAgain.addEventListener("click", () => location.reload() );// this button refresh the page when clicked to restart the match
+    
+
+        divPlayAgain.appendChild(playAgain);
+        container.appendChild(divPlayAgain);
+
+        container.removeChild(selection);
+        container.removeChild(divImages);
+        container.removeChild(divSelectionText);
+        let userWins = storeScore.filter((elem) => elem === "player").length;
+        let compWins = storeScore.filter((elem) => elem === "computer").length;
+
+        if(userWins > compWins){
+            message.innerHTML = "Congratulation You won The Match";
+        }
+        else if(compWins > userWins){
+            message.innerHTML = "You Loss";
+        }
+
+    }     
+    }))
+}
+</script>
+</body>
+</html>
